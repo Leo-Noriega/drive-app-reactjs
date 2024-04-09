@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import axios from "axios"; // Make sure to install axios with `npm install axios`
+import axios from "axios";
 
-function FileUpload() {
+function FileUpload({handleCloseModal}) {
   const [file, setFile] = useState();
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]); // Get the first file
+    setFile(event.target.files[0]);
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent the default form submit action
+    event.preventDefault();
 
     if (!file) {
       alert("Please select a file first!");
@@ -17,8 +17,7 @@ function FileUpload() {
     }
 
     const formData = new FormData();
-    formData.append("archivo", file); // 'archivo' should match the key expected on the server
-
+    formData.append("archivo", file);
     try {
       const response = await axios.post(
         "http://localhost:3000/files/upload",
@@ -29,10 +28,10 @@ function FileUpload() {
           },
         }
       );
-      alert(`File uploaded successfully: ${response.data}`);
+      // alert(`File uploaded successfully: ${response.data}`);
+      handleCloseModal();
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Error uploading file");
     }
   };
 
@@ -42,16 +41,16 @@ function FileUpload() {
         <input
           type="file"
           onChange={handleFileChange}
-          className="block w-full text-sm text-gray-500
+          className="block w-full text-sm file:text-white
         file:mr-4 file:py-2 file:px-4
-        file:rounded-full file:border-0
+        file:rounded file:border-0
         file:text-sm file:font-semibold
-        file:bg-violet-50 file:text-violet-700
-        hover:file:bg-violet-100"
+        file:bg-gray-400
+        hover:file:bg-slate-800"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700"
         >
           Upload
         </button>
