@@ -84,7 +84,7 @@ const MainPage = () => {
           </button>
         </div>
         {showModal && (
-          <div className="modal bg-gray-800 opacity-95 fixed inset-0 flex items-center justify-center">
+          <div className="modal bg-gray-800 fixed inset-0 flex items-center justify-center">
             <div className="modal-content bg-white p-4 rounded-lg relative w-1/2 h-1/2 mx-auto flex items-center justify-center">
               <span
                 className="close absolute top-4 right-4 cursor-pointer"
@@ -101,20 +101,28 @@ const MainPage = () => {
         <div className="flex flex-wrap justify-start">
           {files.map((file) => (
             <div key={file._id} className="w-1/5 p-4">
-              <div className="card bg-white rounded shadow">
+              <div className="card bg-white rounded shadow h-80">
                 <img
                   className="object-cover h-48 w-full rounded-t"
                   src={
                     file.metadata.value === "application/pdf"
                       ? PdfFile
                       : file.metadata.value === "audio/mpeg"
-                      ? Mp3File
-                      : `http://localhost:3000/files/download/${file._id}`
+                        ? Mp3File
+                        : `http://localhost:3000/files/download/${file._id}`
                   }
                   alt={file.filename}
                 />
                 <div className="p-4">
-                  <button onClick={() => handleOpenFileModal(file)}>
+                  <h3 className="overflow-hidden text-ellipsis whitespace-nowrap">
+                    {file.filename}
+                  </h3>
+                </div>
+                <div className="p-4">
+                  <button
+                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+                    onClick={() => handleOpenFileModal(file)}
+                  >
                     Open
                   </button>
                 </div>
@@ -123,7 +131,7 @@ const MainPage = () => {
           ))}
         </div>
         {showModalDownload && selectedFile && (
-          <div className="modal bg-gray-800 opacity-95 fixed inset-0 flex items-center justify-center">
+          <div className="modal bg-gray-800 fixed inset-0 flex items-center justify-center">
             <div className="modal-content bg-white p-4 rounded-lg relative w-1/2 h-1/2 mx-auto flex items-center justify-center">
               <span
                 className="close absolute top-4 right-4 cursor-pointer"
@@ -133,21 +141,33 @@ const MainPage = () => {
                   <img src={CloseButton} alt="Close" />
                 </div>
               </span>
-              <img
-                style={{ maxWidth: "80%", maxHeight: "80%" }} // Ajusta estos valores según tus necesidades
-                src={`http://localhost:3000/files/download/${selectedFile._id}`}
-                alt={selectedFile.filename}
-              />
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `http://localhost:3000/files/download/${selectedFile._id}`
-                  );
-                }}
-                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700" // Añade estilos a tu botón aquí
-              >
-                Copy Download Link
-              </button>
+              <div className="flex flex-col items-center justify-center">
+                <div className="w-1/2 h-1/2">
+                  <img
+                    style={{ maxWidth: "40%", maxHeight: "40%" }} // Ajusta estos valores según tus necesidades
+                    src={
+                      selectedFile.metadata.value === "application/pdf"
+                        ? PdfFile
+                        : selectedFile.metadata.value === "audio/mpeg"
+                          ? Mp3File
+                          : `http://localhost:3000/files/download/${selectedFile._id}`
+                    }
+                    alt={selectedFile.filename}
+                  />
+                </div>
+                <div className="w-1/2 h-1/2">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `http://localhost:3000/files/download/${selectedFile._id}`
+                      );
+                    }}
+                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700" // Añade estilos a tu botón aquí
+                  >
+                    Copy Download Link
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
