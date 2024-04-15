@@ -7,6 +7,7 @@ import Mp3File from "../../assets/img/mp3.png";
 import PdfFile from "../../assets/img/pdf.png";
 import AuthContext from "../../config/context/auth-context";
 import FileUpload from "../files/FileUpload";
+import { linkCopiedAlert } from "../../config/alerts/alert";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -131,7 +132,7 @@ const MainPage = () => {
         </div>
         {showModalDownload && selectedFile && (
           <div className="modal bg-gray-800 fixed inset-0 flex items-center justify-center">
-            <div className="modal-content bg-white p-4 rounded-lg relative w-1/2 h-1/2 mx-auto flex items-center justify-center">
+            <div className="modal-content bg-white p-4 rounded-lg relative w-1/2 h-1/2 mx-auto flex flex-col items-center justify-center">
               <span
                 className="close absolute top-4 right-4 cursor-pointer"
                 onClick={handleCloseModalDownload}
@@ -141,9 +142,9 @@ const MainPage = () => {
                 </div>
               </span>
               <div className="flex flex-col items-center justify-center">
-                <div className="w-1/2 h-1/2">
+                <div style={{ width: "200px", height: "200px" }}>
                   <img
-                    style={{ maxWidth: "40%", maxHeight: "40%" }} // Ajusta estos valores según tus necesidades
+                    style={{ maxWidth: "100%", maxHeight: "100%" }}
                     src={
                       selectedFile.metadata.value === "application/pdf"
                         ? PdfFile
@@ -154,22 +155,23 @@ const MainPage = () => {
                     alt={selectedFile.filename}
                   />
                 </div>
-                <div className="w-1/2 h-1/2">
+                <div className="mt-4">
                   <button
                     onClick={() => {
+                      linkCopiedAlert();
                       navigator.clipboard.writeText(
                         `http://localhost:3000/files/download/${selectedFile._id}`,
                       );
                     }}
-                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700" // Añade estilos a tu botón aquí
+                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700" // Puedes ajustar más estilos aquí si lo necesitas
                   >
-                    Copy Download Link
+                    Copiar Link de Descarga
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        )}
+        )}{" "}
       </div>
     </>
   );

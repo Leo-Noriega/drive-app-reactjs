@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { confirmAlert } from "../../config/alerts/alert";
 
-function FileUpload({handleCloseModal}) {
+function FileUpload({ handleCloseModal }) {
   const [file, setFile] = useState();
 
   const handleFileChange = (event) => {
@@ -26,8 +27,11 @@ function FileUpload({handleCloseModal}) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
+      if (response.status === 200) {
+        confirmAlert("Correcto", "Archivo subido correctamente", "success");
+      }
       // alert(`File uploaded successfully: ${response.data}`);
       handleCloseModal();
     } catch (error) {
@@ -50,7 +54,7 @@ function FileUpload({handleCloseModal}) {
         />
         <button
           type="submit"
-            className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700"
+          className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700"
         >
           Upload
         </button>
