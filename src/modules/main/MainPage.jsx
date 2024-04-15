@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../../config/context/auth-context";
-import Logo from "../../assets/img/logo.png";
-import CloseButton from "../../assets/img/close.png";
-import PdfFile from "../../assets/img/pdf.png";
-import Mp3File from "../../assets/img/mp3.png";
-import FileUpload from "../files/FileUpload";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CloseButton from "../../assets/img/close.png";
+import Logo from "../../assets/img/logo.png";
+import Mp3File from "../../assets/img/mp3.png";
+import PdfFile from "../../assets/img/pdf.png";
+import AuthContext from "../../config/context/auth-context";
+import FileUpload from "../files/FileUpload";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const MainPage = () => {
     const fetchFiles = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/files/getFiles"
+          "http://localhost:3000/files/getFiles",
         );
         setFiles(response.data);
       } catch (error) {
@@ -159,7 +159,7 @@ const MainPage = () => {
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        `http://localhost:3000/files/download/${selectedFile._id}`
+                        `http://localhost:3000/files/download/${selectedFile._id}`,
                       );
                     }}
                     className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700" // Añade estilos a tu botón aquí
