@@ -5,7 +5,8 @@ import { authManager } from "./config/context/auth-manager";
 import AppRouter from "./router/AppRouter";
 
 const init = () => {
-  return JSON.parse(localStorage.getItem("token")) || null;
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user && user.signed ? user : null;
 };
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
 
   useEffect(() => {
     if (!user) return;
-    localStorage.setItem("token", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
   return (

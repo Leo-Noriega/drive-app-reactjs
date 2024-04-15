@@ -1,7 +1,9 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../config/context/auth-context";
+import Logo from "../../assets/img/logo.png";
+import { customAlert } from "../../config/alerts/alert";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -33,9 +35,9 @@ const Login = () => {
         const token = response.data.token;
         // Store the token in local storage
         localStorage.setItem("token", token);
-        console.log(`Login succesfull ${token}`);
         // Update AuthContext
         dispatch({ type: "SIGNIN", payload: token });
+        customAlert("Correcto", "Inicio de sesión exitoso", "success");
         navigate("/", { replace: true });
       } else if (response.status === 404) {
         console.log("Invalid username or password");
@@ -48,32 +50,30 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-600">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <label className="text-white">Username</label>
-        <input
-          type="text"
-          placeholder="Enter your username"
-          value={username}
-          onChange={handleUsernameChange}
-          className="block w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-700 text-white focus:outline-none focus:ring focus:border-blue-500"
-        />
-        <label className="text-white">Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={handlePasswordChange}
-          className="block w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-700 text-white focus:outline-none focus:ring focus:border-blue-500"
-        />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-          style={{ width: "100%" }} // Set button width to match input width
-        >
-          Iniciar sesión
-        </button>
-      </form>
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-[#164a41] via-[#4d774e] to-[#9dc88d]">
+      <div className="flex items-center justify-center h-1/2 w-4/12 bg-[#ffffff] outline outline-4 outline-[#f1b24a] rounded-md">
+        <form onSubmit={handleSubmit} className="space-y-4 w-5/12">
+          <img className="w-full h-full" src={Logo} />
+          <input
+            type="text"
+            placeholder="Usuario"
+            onChange={handleUsernameChange}
+            className="block h-8 w-full outline outline-1 outline-black rounded text-center"
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            onChange={handlePasswordChange}
+            className="block h-8 w-full outline outline-1 outline-black rounded text-center"
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 text-white bg-[#f1b24a] rounded hover:bg-[#164a41] w-full font-bold"
+          >
+            Iniciar sesión
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

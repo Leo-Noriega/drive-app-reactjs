@@ -8,6 +8,7 @@ export const authManager = (state = {}, action) => {
       };
     case "SIGNOUT":
       return {
+        token: null,
         signed: false,
       };
     default:
