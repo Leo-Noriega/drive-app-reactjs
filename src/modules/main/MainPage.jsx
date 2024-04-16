@@ -7,7 +7,7 @@ import Mp3File from "../../assets/img/mp3.png";
 import PdfFile from "../../assets/img/pdf.png";
 import AuthContext from "../../config/context/auth-context";
 import FileUpload from "../files/FileUpload";
-import { linkCopiedAlert } from "../../config/alerts/alert";
+import { customAlert, linkCopiedAlert } from "../../config/alerts/alert";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -31,6 +31,16 @@ const MainPage = () => {
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
   const handleCloseModalDownload = () => setShowModalDownload(false);
+
+  const deleteFile = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/files/delete/${id}`);
+      customAlert("Correcto", "Archivo eliminado correctamente", "success");
+    } catch (error) {
+      console.error("Error deleting the file: ", error);
+      customAlert("Error", "Error al eliminar el archivo", "error");
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -118,12 +128,18 @@ const MainPage = () => {
                     {file.filename}
                   </h3>
                 </div>
-                <div className="p-4">
+                <div className="p-4 flex justify-between">
                   <button
                     className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
                     onClick={() => handleOpenFileModal(file)}
                   >
-                    Open
+                    Abrir
+                  </button>
+                  <button
+                    className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700"
+                    onClick={() => deleteFile(file._id)}
+                  >
+                    Borrar
                   </button>
                 </div>
               </div>
