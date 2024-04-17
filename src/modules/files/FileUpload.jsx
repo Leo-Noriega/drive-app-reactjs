@@ -21,7 +21,7 @@ function FileUpload({ handleCloseModal }) {
     formData.append("archivo", file);
     try {
       const response = await axios.post(
-        "http://localhost:3000/files/upload",
+        "http://apiintegradora-env-env.eba-hfx6dimu.us-east-1.elasticbeanstalk.com/files/upload",
         formData,
         {
           headers: {

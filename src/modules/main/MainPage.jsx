@@ -8,6 +8,7 @@ import PdfFile from "../../assets/img/pdf.png";
 import AuthContext from "../../config/context/auth-context";
 import FileUpload from "../files/FileUpload";
 import { customAlert, linkCopiedAlert } from "../../config/alerts/alert";
+import ClipboardJS from 'clipboard';
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -34,7 +35,9 @@ const MainPage = () => {
 
   const deleteFile = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/files/delete/${id}`);
+      await axios.delete(
+        `http://apiintegradora-env-env.eba-hfx6dimu.us-east-1.elasticbeanstalk.com/files/delete/${id}`,
+      );
       customAlert("Correcto", "Archivo eliminado correctamente", "success");
     } catch (error) {
       console.error("Error deleting the file: ", error);
@@ -60,7 +63,7 @@ const MainPage = () => {
     const fetchFiles = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/files/getFiles",
+          "http://apiintegradora-env-env.eba-hfx6dimu.us-east-1.elasticbeanstalk.com/files/getFiles",
         );
         setFiles(response.data);
       } catch (error) {
@@ -69,6 +72,12 @@ const MainPage = () => {
     };
     fetchFiles();
   });
+
+  new ClipboardJS('.copy-button', {
+    text: function() {
+        return `http://apiintegradora-env-env.eba-hfx6dimu.us-east-1.elasticbeanstalk.com/files/download/${selectedFile._id}`;
+    }
+});
 
   return (
     <>
@@ -119,7 +128,7 @@ const MainPage = () => {
                       ? PdfFile
                       : file.metadata.value === "audio/mpeg"
                         ? Mp3File
-                        : `http://localhost:3000/files/download/${file._id}`
+                        : `http://apiintegradora-env-env.eba-hfx6dimu.us-east-1.elasticbeanstalk.com/files/download/${file._id}`
                   }
                   alt={file.filename}
                 />
@@ -166,7 +175,7 @@ const MainPage = () => {
                         ? PdfFile
                         : selectedFile.metadata.value === "audio/mpeg"
                           ? Mp3File
-                          : `http://localhost:3000/files/download/${selectedFile._id}`
+                          : `http://apiintegradora-env-env.eba-hfx6dimu.us-east-1.elasticbeanstalk.com/files/download/${selectedFile._id}`
                     }
                     alt={selectedFile.filename}
                   />
@@ -175,11 +184,8 @@ const MainPage = () => {
                   <button
                     onClick={() => {
                       linkCopiedAlert();
-                      navigator.clipboard.writeText(
-                        `http://localhost:3000/files/download/${selectedFile._id}`,
-                      );
                     }}
-                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700" // Puedes ajustar más estilos aquí si lo necesitas
+                    className="copy-button px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
                   >
                     Copiar Link de Descarga
                   </button>

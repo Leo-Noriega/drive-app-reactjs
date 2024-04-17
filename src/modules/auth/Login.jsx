@@ -26,10 +26,13 @@ const Login = () => {
     console.log("Username:", username);
     console.log("Password:", password);
     try {
-      const response = await axios.post("http://localhost:3000/auth/signin", {
-        username: username,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://apiintegradora-env-env.eba-hfx6dimu.us-east-1.elasticbeanstalk.com/auth/signin",
+        {
+          username: username,
+          password: password,
+        },
+      );
       if (response.status === 200) {
         // Get the token of the response
         const token = response.data.token;
