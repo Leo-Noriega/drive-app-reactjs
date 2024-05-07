@@ -20,7 +20,8 @@ pipeline {
         stage ('Dev') {
             steps {
                 echo 'Running dev server...'
-                sh 'npm run dev'
+                sh 'docker build -t myapp .'
+                sh 'docker run -d -p 3030:3030 myapp'
             }
         }
     }
