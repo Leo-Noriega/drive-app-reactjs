@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Running dev server...'
                 sh 'docker build -t myapp .'
-                sh 'docker run -d -p 3030:3030 myapp'
+                sh 'docker run -d -p 3030:80 myapp'
             }
         }
     }
